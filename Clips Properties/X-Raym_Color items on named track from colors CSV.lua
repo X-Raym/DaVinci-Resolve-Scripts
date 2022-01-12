@@ -6,7 +6,7 @@
  * Repository URI: https://github.com/X-Raym/DaVinci-Resolve-Scripts
  * Licence: GPL v3
  * REAPER: 5.0
- * Version: 1.0
+ * Version: 1.0.1
 --]]
 
 --[[
@@ -16,7 +16,7 @@
 --]]
 
 -- USER CONFIG AREA ---------------------------------------
-track_name = "Sous-Titres 1"
+track_name = "Sous-titre 1"
 csv_colors = "#FF0000,#00FF00,#FFFF00"
 separator = ","
 
@@ -140,9 +140,9 @@ tl = proj:GetCurrentTimeline()
 track_types =  { "audio", "video", "subtitle" }
 local out_track_type, out_track_index
 for i, track_type in ipairs( track_types ) do
-    tracks_count = GetTrackCount(track_type)
+    tracks_count = tl:GetTrackCount(track_type)
     for id = 1, tracks_count do
-        temp_track_name = GetTrackName(track_type, id)
+        temp_track_name = tl:GetTrackName(track_type, id)
         if track_name == temp_track_name then
             out_track_index = id
             out_track_type = track_type
@@ -156,7 +156,7 @@ if not out_track_index then
     return false
 end  
 
-items = tl:GetItemListInTrack(out_track_type, tracout_track_indexk_index)
+items = tl:GetItemListInTrack(out_track_type, out_track_index)
 
 if #items == 0 then
     print( "No item on track or no track with this name.")
@@ -186,7 +186,7 @@ end
 for i, item in ipairs( items ) do
     -- print(item:GetName())
     -- print("color_names[] = \"" .. item:GetClipColor() .. "\"")
-	if color_named[i] then
+	  if color_named[i] then
         item:SetClipColor(color_named[i])
         print(item:GetName() .. "\t" .. color_named[i])
     end
