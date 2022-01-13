@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Color subtitles items from colors CSV in first clip name
+ * Resolve Script Name: Color subtitles items from colors CSV in first clip name
  * Screenshot: https://i.imgur.com/hAZq8Gm.gif
  * Author: X-Raym
  * Author URI: https://www.extremraym.com
