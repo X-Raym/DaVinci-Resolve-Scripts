@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Color items on named track from colors CSV
+ * Resolve Script Name: Color items on named track from colors CSV
  * Author: X-Raym
  * Author URI: https://www.extremraym.com
  * Repository: GitHub > X-Raym > DaVinci-Resolve-Scripts
