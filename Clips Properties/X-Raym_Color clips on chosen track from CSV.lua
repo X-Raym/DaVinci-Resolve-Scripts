@@ -7,11 +7,13 @@
  * Repository URI: hhttps://github.com/X-Raym/DaVinci-Resolve-Scripts/
  * Licence: GPL v3
  * REAPER: 5.0
- * Version: 1.1
+ * Version: 1.1.1
 --]]
 
 --[[
  * Changelog:
+ * v1.1.1 (2022-01-23)
+  # Frames fix count in cursor position
  * v1.1 (2022-01-23)
   + Process after cursor combo
   + Loop color combo
@@ -119,8 +121,8 @@ end
 
 function GetFrameFromTimeCode( timecode, fps )
   if not fps then fps = framerate end
-  local hours, minutes, seconds = timecode:match("(%d+):(%d+):(%d+)")
-  return (hours * 3600 + minutes * 60 + seconds) * fps
+  local hours, minutes, seconds, frames = timecode:match("(%d+):(%d+):(%d+):(%d+)")
+  return (hours * 3600 + minutes * 60 + seconds) * fps + frames
 end
 
 -------------------------------------- END OF VARIOUS --
@@ -218,7 +220,7 @@ function run()
   -- Time
   local min_pos = 0
   if itm.ComboTime.CurrentIndex == 1 then
-    min_pos = GetFrameFromTimeCode( tl:GetCurrentTimecode() , fps )
+    min_pos = GetFrameFromTimeCode( tl:GetCurrentTimecode(), fps )
     print("Min Pos = " .. min_pos)
   end
 
