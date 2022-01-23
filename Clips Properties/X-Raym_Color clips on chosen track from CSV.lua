@@ -3,22 +3,28 @@
  * Screenshot: https://i.imgur.com/TX3Lvmq.gif
  * Author: X-Raym
  * Author URI: https://www.extremraym.com
- * Repository: GitHub > X-Raym > REAPER-ReaScripts
- * Repository URI: https://github.com/X-Raym/REAPER-ReaScripts
+ * Repository: GitHub > X-Raym > DaVinci-Resolve-Scripts
+ * Repository URI: hhttps://github.com/X-Raym/DaVinci-Resolve-Scripts/
  * Licence: GPL v3
  * REAPER: 5.0
- * Version: 1.0
+ * Version: 1.1
 --]]
 
 --[[
  * Changelog:
+ * v1.1 (2022-01-23)
+  + Process after cursor combo
+  + Loop color combo
+  + Named color in CSV (case insensitive)
+  # trim spaces in CSV
  * v1.0 (2022-01-13)
-  # Empty name fixes
+  # Initial Release
 --]]
 
 -- USER CONFIG AREA ---------------------------------------
 separator = ","
 
+dev = false
 -------------------------------- END OF USER CONFIG AREA --
 
 -- GLOBALS ------------------------------------------------
@@ -42,6 +48,11 @@ color_names[14] =  { name = "Beige",     r = 198, g = 160, b = 119, hex = "#C6A0
 color_names[15] =  { name = "Brown",     r = 153, g = 102, b =   0, hex = "#996600" }
 color_names[16] =  { name = "Chocolate", r = 140, g =  90, b =  63, hex = "#8C5A3F" }
 
+colors_names_list = {}
+for i, color in ipairs( color_names ) do
+  colors_names_list[color.name:lower()] = color
+end
+
 -- test string:
 -- #EB6E00,#FFA833,#E2A91C,#9FC615,#5E9920,#448F64,#009899,#156284,#4376A1,#9973A0,#D0578D,#E98CB5,#B9B097,#C6A077,#996600,#8C5A3F
 
@@ -51,12 +62,17 @@ color_names[16] =  { name = "Chocolate", r = 140, g =  90, b =  63, hex = "#8C5A
 function ParseCSVLine( str )
   local t = {}
   local i = 0
-  for line in str:gmatch("[^" .. separator .. "]*") do
+  for cell in str:gmatch("[^" .. separator .. "]*") do
       i = i + 1
-      t[i] = line
+      t[i] = trim(cell)
   end
   if t[#t] == "" then t[#t] = nil end
   return t
+end
+
+function trim(s)
+  -- from PiL2 20.4
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
 --------------------------------------------- END OF CSV --
@@ -101,6 +117,12 @@ function GetTracks(tl)
   return t
 end
 
+function GetFrameFromTimeCode( timecode, fps )
+  if not fps then fps = framerate end
+  local hours, minutes, seconds = timecode:match("(%d+):(%d+):(%d+)")
+  return (hours * 3600 + minutes * 60 + seconds) * fps
+end
+
 -------------------------------------- END OF VARIOUS --
 
 -- UI --------------------------------------------------
@@ -121,7 +143,17 @@ win = disp:AddWindow(
       ui:HGroup
       {
         Weight = 1,
-        ui:TextEdit{ ID="Input", Text = "", PlaceholderText = "Input CSV: #FF0000,#00FF00..." }
+        ui:TextEdit{ ID="Input", Text = dev and "#FFF000, Purple, Pink, Green, Blue, Yellow, Tan, Lime, Orange, Olive, Beige, Brown, Teal, Chocolate, Navy, Violet, Apricot" or "", PlaceholderText = "Input CSV: #FFF000, Purple, Pink, Green, Blue, Yellow, Tan, Lime, Orange, Olive, Beige, Brown, Teal, Chocolate, Navy, Violet, Apricot..." }
+      },
+      ui:HGroup
+      {
+        Weight = 0,
+         ui:ComboBox{ ID = "ComboTime" }
+      },
+      ui:HGroup
+      {
+        Weight = 0,
+         ui:ComboBox{ ID = "ComboLoopColors" }
       },
       ui:HGroup
       {
@@ -166,6 +198,8 @@ function run()
       local color_name = GetClosestColorRGB( R, G, B )
       print(color_name.name)
       table.insert(colors_named, color_name.name)
+    else
+      if colors_names_list[color:lower()] then table.insert(colors_named, colors_names_list[color:lower()].name) end
     end
   end
   if #colors == 0 then
@@ -181,15 +215,32 @@ function run()
     return false
   end
 
+  -- Time
+  local min_pos = 0
+  if itm.ComboTime.CurrentIndex == 1 then
+    min_pos = GetFrameFromTimeCode( tl:GetCurrentTimecode() , fps )
+    print("Min Pos = " .. min_pos)
+  end
+
   -- Set Colors
+  print("--\nLOOP ITEMS")
+  local count = 0
   for i, item in ipairs( items ) do
-    if i > #colors_named then break end
+    if count == #colors_named then
+      if itm.ComboLoopColors.CurrentIndex == 1 then
+        count = 0
+      else
+        break
+      end
+    end
     print("--")
-    -- print(item:GetName())
-    -- print("color_names[] = \"" .. item:GetClipColor() .. "\"")
-    if colors_named[i] then
-      item:SetClipColor(colors_named[i])
-      print(i .. ". " .. item:GetName() .. " → " .. colors_named[i])
+    if item:GetStart() >= min_pos then
+      print(item:GetName())
+      if colors_named[count+1] then
+        count = count + 1
+        item:SetClipColor(colors_named[count])
+        print(i .. ". " .. item:GetName() .. " → " .. colors_named[count])
+      end
     end
   end
 
@@ -205,12 +256,21 @@ resolve = Resolve()
 pm = resolve:GetProjectManager()
 proj = pm:GetCurrentProject()
 tl = proj:GetCurrentTimeline()
+fps = tl:GetSetting("timelineFrameRate")
 
 -- Add track names to combo
 tracks = GetTracks(tl)
 for i, track in ipairs( tracks ) do
   itm.ComboTracks:AddItem( track.name )
 end
+
+-- Add time to combo
+itm.ComboTime:AddItem('Process from start')
+itm.ComboTime:AddItem('Process from playhead')
+
+-- Add Loop Colors to combo
+itm.ComboLoopColors:AddItem('Stop at end of color list')
+itm.ComboLoopColors:AddItem('Loop color list')
 
 win:Show()
 
