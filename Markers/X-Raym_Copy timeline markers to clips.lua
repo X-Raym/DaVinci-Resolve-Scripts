@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Copy timeline markers to clips
+ * Resolve Script Name: Copy timeline markers to clips
  * Author: X-Raym
  * Author URI: https://www.extremraym.com
  * Repository: GitHub > X-Raym > DaVinci-Resolve-Scripts

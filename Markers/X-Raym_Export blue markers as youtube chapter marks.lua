@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Export blue markers as youtube chapter marks
+ * Resolve Script Name: Export blue markers as youtube chapter marks
  * Author: X-Raym
  * Author URI: https://www.extremraym.com
  * Repository: GitHub > X-Raym > DaVinci-Resolve-Scripts

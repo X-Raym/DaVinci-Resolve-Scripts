@@ -1,6 +1,6 @@
 
 --[[
- * ReaScript Name: Import marker from OBSInfoWriter
+ * Resolve Script Name: Import marker from OBSInfoWriter
  * About:
    Use this with clip and OBS Studio OBSInfoWriter plugin set to CSV.
    CSV should have same name as video and in same directory.

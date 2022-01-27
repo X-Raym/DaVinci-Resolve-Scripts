@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Export markers as reaper CSV
+ * Resolve Script Name: Export markers as reaper CSV
  * About: Use with X-Raym REAPER import markers script from CSV
  * Author: X-Raym
  * Author URI: https://www.extremraym.com

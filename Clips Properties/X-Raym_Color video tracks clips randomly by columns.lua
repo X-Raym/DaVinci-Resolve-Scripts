@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Copy timeline markers to clips
+ * Resolve Script Name: Color video track clips randomly by columns
  * Screenshot: https://i.imgur.com/0CcxPzV.gif
  * About: Use this with the Select clips by color feature on a sets of deactivated clips and you will have instant multitracks editing
  * Author: X-Raym

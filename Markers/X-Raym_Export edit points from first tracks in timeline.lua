@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Export edit points from first tracks in timeline
+ * Resolve Script Name: Export edit points from first tracks in timeline
  * Author: X-Raym
  * Author URI: https://www.extremraym.com
  * Repository: GitHub > X-Raym > DaVinci-Resolve-Scripts

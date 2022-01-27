@@ -1,5 +1,5 @@
 --[[
- * Resolve Script Name: clips on chosen track from CSV
+ * Resolve Script Name: Color clips on chosen track from CSV
  * Screenshot: https://i.imgur.com/TX3Lvmq.gif
  * Author: X-Raym
  * Author URI: https://www.extremraym.com

@@ -1,5 +1,5 @@
 --[[
- * ReaScript Name: Basic Input GUI
+ * Resolve Script Name: Basic Input GUI
  * Author: X-Raym
  * Author URI: https://www.extremraym.com
  * Repository: GitHub > X-Raym > DaVinci-Resolve-Scripts
