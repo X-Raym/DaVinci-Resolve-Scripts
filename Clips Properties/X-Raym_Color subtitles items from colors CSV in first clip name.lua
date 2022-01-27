@@ -102,7 +102,7 @@ for i, track_type in ipairs( track_types ) do
     tracks_count = tl:GetTrackCount(track_type)
     for id = 1, tracks_count do
         --temp_track_name = tl:GetTrackName(track_type, id)
-        temp_items = tl:GetItemListInTrack(track_type, 1)
+        temp_items = tl:GetItemListInTrack(track_type, id)
         if #temp_items > 0 then
             name = temp_items[1]:GetName() -- first item
             csv_colors = string.match( name, "(#.+)" )
