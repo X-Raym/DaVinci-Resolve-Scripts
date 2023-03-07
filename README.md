@@ -20,6 +20,14 @@ Navigate on a script page and click on Raw button, then File > Save from your br
 
 ```C:\ProgramData\Blackmagic Design\DaVinci Resolve\Fusion\Scripts```
 
+### MacOS
+
+```/Library/Application Support/Blackmagic Design/DaVinci Resolve/Fusion/Scripts/Utility```
+
+### Linux
+
+```/opt/resolve/Fusion/Scripts/Utility``` or ```/home/resolve/Fusion/Scripts/Utility```
+
 ## Donation
 
 [PayPal.me](https://paypal.me/extremraym)
@@ -31,4 +39,4 @@ Navigate on a script page and click on Raw button, then File > Save from your br
 
 ## Links
 
-[My Free Resolve Scripts - BlackMagic Design Forum](https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=154369)
+* [My Free Resolve Scripts - BlackMagic Design Forum](https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=154369)
